@@ -1,0 +1,29 @@
+{
+  "name": "easy-injectionjs",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shehats/easy-injectionJS.git"
+  },
+  "keywords": [
+    "easy-injection",
+    "JS",
+    "typescript",
+    "dependency",
+    "injection"
+  ],
+  "author": "saleh shehata",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Shehats/easy-injectionJS/issues"
+  },
+  "homepage": "https://github.com/Shehats/easy-injectionJS#readme",
+  "dependencies": {
+    "reflect-metadata": "^0.1.12"
+  }
+}
