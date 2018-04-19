@@ -63,6 +63,10 @@ export class Dependency {
     return this._container;
   }
 
+  public set container(v : Container) {
+    this._container = v;
+  }
+
   public get resolved(): Object {
     return this._resolved;
   }
@@ -80,22 +84,6 @@ export enum Stereotype {
   Prototype,
   Observable,
   Factory
-}
-
-export class Module {
-  private _name: string;
-  private _type: Object;
-  private _children: Container[];
-
-  constructor (name: string, 
-               type: Object) {
-    this._type = type;
-    this._name = name || type.constructor.name;
-  }
-
-  public addChild(child: Container): void {
-    this._children.push(child);
-  }
 }
 
 export class Wrapper {

@@ -4,6 +4,7 @@ import { Container } from './container';
 export class ClassContainer {
   private static _instance: ClassContainer;
   private static _container: IContainer; 
+  private static _parents: IContainer;
 
   private constructor () {
   }
@@ -21,10 +22,26 @@ export class ClassContainer {
   }
 
   public static getDependency (target: string): Container {
-    return this.ContainerInstance[target] || this.ContainerInstance[target]
+    return this.ContainerInstance[target];
   }
 
   public static getDepedencies(): IContainer{
     return this._container;
+  }
+
+  public static get ParentsInstance (): IContainer {
+    return this._parents || (this._parents = new class implements IContainer {}());
+  }
+
+  public static insertParent (target: string, data: Container): void {
+   this.ParentsInstance[target] = data;
+  }
+
+  public static getParent (target: string): Container {
+    return this.ParentsInstance[target];
+  }
+
+  public static getParents(): IContainer{
+    return this._parents;
   }
 }

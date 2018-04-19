@@ -1,8 +1,12 @@
-export { isPrimitive, 
-		 Paremeter, 
-		 stereotypes,
+export { isPrimitive,
+         Paremeter, 
+         stereotypes,
          IContainer,
          Stereotype,
          Dependency,
-         Wrapper,
-         Module } from './core';
+         Wrapper } from './core';
+
+export { EasySingleton,
+         EasyPrototype,
+         Easy,
+         EasyFactory } from './stereotypes';

@@ -1,0 +1,3 @@
+Factory:
+1- Keep track of parent's dependencies
+2- Inject them in children classes in runtime
