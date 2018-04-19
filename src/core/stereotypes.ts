@@ -1,10 +1,13 @@
 import "reflect-metadata";
+
 import { isPrimitive, 
          Paremeter, 
          Dependency, 
          stereotypes, 
          Wrapper, 
-         Stereotype } from './';
+         Stereotype,
+         getDependencies,
+         resolveDependencyTree } from './';
 import { Container, 
          ClassContainer, 
          FactoryContainer,
@@ -13,33 +16,9 @@ import { Container,
 const wrapper: Wrapper = Wrapper.Instance;
 
 export const EasySingleton = <T extends {new(...args:any[]):{}}>(name?: string) => function(target: T): any {
-  let _ref = wrapper.get(name || target.name);
-  if (!_ref) {
-    // try by target name
-    _ref = wrapper.get(target.name);
-    if (!_ref) {
-      wrapper.insert(name || target.name, target);
-    _ref = wrapper.get(name || target.name);
-    }
-  }
-  
-  let _existing: Dependency[] = Reflect.getMetadata(stereotypes.easy, _ref);
+  let _existing: Dependency[] = getDependencies(target, name);
   let _container: Container = new GenericContainer(Stereotype.Singleton, target, _existing, (name) ? name: target.name);
-  let lis = ClassContainer.getParents()
-  let _obj = new target();
-  Object.getOwnPropertyNames(lis).forEach(x => {
-    if(_obj instanceof lis[x].type) {
-      _container.resolved = lis[x].resolved;
-      lis[x].addChild(_container);
-    } else {
-      _existing.forEach(y => {
-        if (lis[x].instance) {
-          y.container = lis[x].instance;
-        }
-      });
-    }
-  })
-  _container.dependencies = _existing
+  resolveDependencyTree(target, _container, _existing);
   let instance = _container.resolveDepedendencies();
   return class extends target {
     constructor (...args: any[]) {
@@ -52,34 +31,9 @@ export const EasySingleton = <T extends {new(...args:any[]):{}}>(name?: string) 
 }
 
 export const EasyPrototype = <T extends {new(...args:any[]):{}}>(name?: string) => function(target: T): any {
-  let _ref = wrapper.get(name || target.name);
-  if (!_ref) {
-    // try by target name
-    _ref = wrapper.get(target.name);
-    if (!_ref) {
-      wrapper.insert(name || target.name, target);
-    _ref = wrapper.get(name || target.name);
-    }
-  } 
-  let _existing: Dependency[] = Reflect.getMetadata(stereotypes.easy, _ref);
+  let _existing: Dependency[] = getDependencies(target, name);
   let _container: Container = new GenericContainer(Stereotype.Prototype, target, _existing, (name) ? name: target.name);
-  let lis = ClassContainer.getParents()
-  let _obj = new target();
-  // Checking children dependencies:
-  Object.getOwnPropertyNames(lis).forEach(x => {
-    if(_obj instanceof lis[x].type) {
-      _container.resolved = lis[x].resolved;
-      lis[x].addChild(_container);
-    } else {
-      _existing.forEach(y => {
-        if (lis[x].instance) {
-          y.container = lis[x].instance;
-        }
-      });
-    }
-  })
-  _container.dependencies = _existing
-  // If using superclass to reference subclass.
+  resolveDependencyTree(target, _container, _existing);
   let instance = _container.resolveDepedendencies();
   return class extends target {
     constructor (...args: any[]) {
@@ -92,16 +46,7 @@ export const EasyPrototype = <T extends {new(...args:any[]):{}}>(name?: string) 
 }
 
 export const EasyFactory = (name?: string) => function(target: Function): any{
-  let _ref = wrapper.get(name || target.name);
-  if (!_ref) {
-    // try by target name
-    _ref = wrapper.get(target.name);
-    if (!_ref) {
-      wrapper.insert(name || target.name, target);
-    _ref = wrapper.get(name || target.name);
-    }
-  }
-  let _existing: Dependency[] = Reflect.getMetadata(stereotypes.easy, _ref);  
+  let _existing: Dependency[] = getDependencies(target, name);  
   let _factory: Container = new FactoryContainer(Stereotype.Factory, target,  _existing, (name) ? name: target.name);
   _factory.resolveDepedendencies();
 }
@@ -117,7 +62,6 @@ export const Easy = (name?: string) => function(target: Object,
   let _existing: Dependency[] = Reflect.getMetadata(stereotypes.easy, _ref, propertyKey) || [];
   let _type = Reflect.getMetadata("design:type", target, propertyKey)
   _existing.push(new Dependency(propertyKey, ClassContainer.getDependency(name || _type.name)));
-  console.log(_existing)
   Reflect.defineMetadata(stereotypes.easy, _existing, _ref);
 }
 
@@ -129,7 +73,7 @@ abstract class Person {
   abstract setName(v: string);
 }
 
-@EasySingleton('somebody')
+@EasySingleton()
 class Somebody extends Person{
   // @Easy()
   constructor (private name: string) {
@@ -149,7 +93,7 @@ class Somebody extends Person{
 class Nobody extends Person{
   name: string = 'a71'
   greeting: string;
-  @Easy('somebody')
+  @Easy()
   somebody: Person;
   private key: string;
   friend: Nobody;

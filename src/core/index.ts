@@ -10,3 +10,6 @@ export { EasySingleton,
          EasyPrototype,
          Easy,
          EasyFactory } from './stereotypes';
+
+export { getDependencies,
+		     resolveDependencyTree } from './util';

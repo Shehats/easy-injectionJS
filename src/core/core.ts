@@ -46,8 +46,8 @@ export class Paremeter {
 }
 
 export class Dependency {
-  private _ref;
-  private _container;
+  private _ref: string;
+  private _container: Container;
   private _resolved: Object;
 
   constructor(ref: string, container: Container) {
