@@ -7,7 +7,7 @@ There's no additional dependencies or containers needed to use the package. You 
 Dependencies without inheritance:
 
 ```javascript
-import { Easy, EasyPrototype, EasySingleton } from './';
+import { Easy, EasyPrototype, EasySingleton } from 'easy-injectionjs';
 
 // Creates a singleton instance of Movie class in runtime
 @EasySingleton()
@@ -67,7 +67,7 @@ If the movie had the annotaion of EasyPrototype instead, Erik_Killmonger.getMovi
 Interfaces and named dependencies example:
 
 ```javascript
-import { Easy, EasyPrototype, EasySingleton } from './';
+import { Easy, EasyPrototype, EasySingleton } from 'easy-injectionjs';
 
 interface Show {
   getName(): string;
@@ -134,7 +134,7 @@ The package support inheritance even with abstract classes using the @EasyFactor
 Example:
 
 ```javascript
-import { Easy, EasyFactory, EasyPrototype, EasySingleton } from './';
+import { Easy, EasyFactory, EasyPrototype, EasySingleton } from 'easy-injectionjs';
 
 @EasyFactory()
 abstract class Show {
@@ -204,7 +204,7 @@ You can even name the @EasyFactory decorator if u have many abstract classes ext
 You can even not name anything and let the package figure out which dependencies you need:
 
 ```javascript
-import { Easy, EasyFactory, EasyPrototype, EasySingleton } from './';
+import { Easy, EasyFactory, EasyPrototype, EasySingleton } from 'easy-injectionjs';
 
 @EasyFactory()
 abstract class Person {
