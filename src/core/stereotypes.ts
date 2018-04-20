@@ -7,7 +7,8 @@ import { isPrimitive,
          Wrapper, 
          Stereotype,
          getDependencies,
-         resolveDependencyTree } from './';
+         resolveDependencyTree} from './';
+
 import { Container, 
          ClassContainer, 
          FactoryContainer,
@@ -51,9 +52,8 @@ export const EasyFactory = (name?: string) => function(target: Function): any{
   _factory.resolveDepedendencies();
 }
 
-
 export const Easy = (name?: string) => function(target: Object, 
-  propertyKey: string){
+  propertyKey: string) {
   let _ref = wrapper.get(target.constructor.name);
   if (!_ref) {
     wrapper.insert(target.constructor.name, target);
@@ -64,71 +64,3 @@ export const Easy = (name?: string) => function(target: Object,
   _existing.push(new Dependency(propertyKey, ClassContainer.getDependency(name || _type.name)));
   Reflect.defineMetadata(stereotypes.easy, _existing, _ref);
 }
-
-
-
-@EasyFactory()
-abstract class Person {
-  abstract getName();
-  abstract setName(v: string);
-}
-
-@EasySingleton()
-class Somebody extends Person{
-  // @Easy()
-  constructor (private name: string) {
-    super()
-    this.name = 'David';
-  }
-
-  public getName() {
-    return this.name;
-  }
-  public setName(v: string) {
-    this.name = v;
-  }
-}
-
-@EasyPrototype()
-class Nobody extends Person{
-  name: string = 'a71'
-  greeting: string;
-  @Easy()
-  somebody: Person;
-  private key: string;
-  friend: Nobody;
-  constructor () {
-    super()
-  }
-  
-  public getName() {
-    return this.somebody.getName();
-  }
-
-  public setName(v: string) {
-    this.somebody.setName(v);
-  }
-
-  public greet(name: string) {
-    return "Hello " + name + ", " + this.greeting;
-  }
-}
-
-@EasySingleton()
-class Data {
-  @Easy()
-  somebody: Person;
-
-  change(v: string) {
-    this.somebody.setName(v);
-  }
-
-  getName(): string {
-    return this.somebody.getName();
-  }
-}
-let d = new Data()
-console.log(d.getName())
-d.change('sal')
-console.log(d.getName())
-// console.log((new Nobody()).getName()())

@@ -6,8 +6,7 @@ export const stereotypes={
   prototype: Symbol('EasyPrototype'),
   easy: Symbol('Easy'),
   factory: Symbol('EasyFactory'),
-  observable: Symbol('EasyObservable'),
-  module: Symbol('EasyModule')
+  observable: Symbol('EasyObservable')
 }
 
 export const isPrimitive = (type: any): boolean => (typeof type === "string" 

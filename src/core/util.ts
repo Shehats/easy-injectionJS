@@ -1,7 +1,7 @@
 import "reflect-metadata";
 
 import { Container, ClassContainer } from '../containers';
-import { Wrapper, Dependency, stereotypes } from '../core';
+import { Wrapper, Dependency, stereotypes, isPrimitive } from '../core';
 
 const wrapper: Wrapper = Wrapper.Instance;
 

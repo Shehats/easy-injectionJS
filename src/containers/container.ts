@@ -21,6 +21,11 @@ export abstract class Container {
   public get stereotype(): Stereotype {
     return this._stereotype;
   }
+
+  public set stereotype(v: Stereotype) {
+    this._stereotype = v;
+  }
+
   public abstract get type(): Object;
 
   public get instance(): Object {
