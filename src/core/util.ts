@@ -23,10 +23,11 @@ export const getDependencies = <T extends {new(...args:any[]):{}}>(target: T | F
 
 export const resolveDependencyTree = <T extends {new(...args:any[]):{}}>(target: T, 
   container: Container, dependencies: Dependency[]): void => {
-  let lis = ClassContainer.getParents()
-  let _obj = new target();
+  let lis = ClassContainer.getParents();
   // Checking children dependencies:
-  Object.getOwnPropertyNames(lis).forEach(x => {
+  if (lis) {
+    let _obj = new target();
+    Object.getOwnPropertyNames(lis).forEach(x => {
     lis[x].resolveDepedendencies();
     if(_obj instanceof lis[x].type) {
       container.resolved = lis[x].resolved;
@@ -40,5 +41,6 @@ export const resolveDependencyTree = <T extends {new(...args:any[]):{}}>(target:
       });
     }
   })
-  container.dependencies = dependencies;
+    container.dependencies = dependencies;
+  }
 }
