@@ -4,6 +4,12 @@ A package that provides dependency injection using common design patterns as ste
 
 There's no additional dependencies or containers needed to use the package. You can simply use it as follows:
 
+npm i -S easy-injectionjs
+
+Or
+
+yarn add easy-injectionjs
+
 Dependencies without inheritance:
 
 ```javascript
