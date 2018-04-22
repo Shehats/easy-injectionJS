@@ -17,12 +17,10 @@ import { Container,
 const wrapper: Wrapper = Wrapper.Instance;
 
 export const EasySingleton = <T extends {new(...args:any[]):{}}>(name?: string) => function(target: T): any {
-  console.log('dddfgfdddf')
   let _existing: Dependency[] = getDependencies(target, name);
   let _container: Container = new GenericContainer(Stereotype.Singleton, target, _existing, (name) ? name: target.name);
   resolveDependencyTree(target, _container, _existing);
   let instance = _container.resolveDepedendencies();
-  console.log(ClassContainer.getDependency(target.name))
   return class extends target {
     constructor (...args: any[]) {
       _container.resolved.forEach(x => {
