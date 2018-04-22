@@ -207,7 +207,7 @@ console.log(Erik_Killmonger.getMovieName()) // // Output is Black Panther II
 Both Iterfaces and abstract classes inheritance support naming to differentiate between the children dependencies and the names have to go into the @Easy decorator and have to match the names in the @EasyPrototype and @EasySingleton decorators.
 You can even name the @EasyFactory decorator if u have many abstract classes extending each others.
 
-You can even not name anything and let the package figure out which dependencies you need:
+You can even not name anything and let the package figure out which dependencies as needed:
 
 ```javascript
 import { Easy, EasyFactory, EasyPrototype, EasySingleton } from 'easy-injectionjs';
@@ -277,5 +277,41 @@ d.change('Gelba')
 console.log(n.getName())  // Prints Gelba
 d.change('kaa')
 console.log(n.getName())  // Prints Kaa
+
+```
+## The "is" Keyword:
+
+The "is" function is used to retrieve dependencies anywhere in the program. It can also be usint with constructor injection:
+
+### Example:
+```javascript
+@EasySingleton()
+class Somebody {
+  // @Easy()
+  constructor (private name: string) {
+    this.name = 'Vladi';
+  }
+
+  public getName() {
+    return this.name;
+  }
+  public setName(v: string) {
+    this.name = v;
+  }
+}
+
+@EasyPrototype()
+class Awesome {
+  private _name: string;
+  constructor (someone: Somebody = is(Somebody)) {
+    someone.setName('Sal')
+    this._name = someone.getName();
+    console.log(this._name);
+  }
+}
+
+is(Awesome) // call returns an instance of Awesome
+
+console.log(is(Somebody).getName()) // returns Sal since it is a singleton :D
 
 ```
