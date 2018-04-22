@@ -285,6 +285,10 @@ The "is" function is used to retrieve dependencies anywhere in the program. It c
 
 ### Example:
 ```javascript
+import { EasySingleton,
+         EasyPrototype,
+         is } 'easy-injectionjs'
+
 @EasySingleton()
 class Somebody {
   // @Easy()
