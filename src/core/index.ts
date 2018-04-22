@@ -9,7 +9,8 @@ export { isPrimitive,
 export { EasySingleton,
          EasyPrototype,
          Easy,
-         EasyFactory } from './stereotypes';
+         EasyFactory,
+         is } from './stereotypes';
 
 export { getDependencies,
-		     resolveDependencyTree } from './util';
+		   resolveDependencyTree } from './util';

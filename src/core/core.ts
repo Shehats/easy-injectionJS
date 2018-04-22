@@ -6,7 +6,9 @@ export const stereotypes={
   prototype: Symbol('EasyPrototype'),
   easy: Symbol('Easy'),
   factory: Symbol('EasyFactory'),
-  observable: Symbol('EasyObservable')
+  observable: Symbol('EasyObservable'),
+  Inject: Symbol('Inject'),
+  Service: Symbol('Service')
 }
 
 export const isPrimitive = (type: any): boolean => (typeof type === "string" 
@@ -82,7 +84,9 @@ export enum Stereotype {
   Singleton,
   Prototype,
   Observable,
-  Factory
+  Factory,
+  Inject,
+  Service 
 }
 
 export class Wrapper {
