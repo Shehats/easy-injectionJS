@@ -287,7 +287,7 @@ The "is" function is used to retrieve dependencies anywhere in the program. It c
 ```javascript
 import { EasySingleton,
          EasyPrototype,
-         is } 'easy-injectionjs'
+         is } import 'easy-injectionjs';
 
 @EasySingleton()
 class Somebody {
@@ -318,4 +318,154 @@ is(Awesome) // call returns an instance of Awesome
 
 console.log(is(Somebody).getName()) // returns Sal since it is a singleton :D
 
+```
+
+## The "Easily" Method:
+
+The "Easily" is ideally used to define static constants or simple objects like:
+
+```javascript
+import { Easily } from 'easy-injectionjs';
+
+const config = {
+  author: 'Sal'
+}
+Easily('config', config);
+```
+
+It requires a name to be injected. PS it can work for npm packages also, if imported like this: import * as smth from 'package'
+
+```javascript
+@EasyPrototype()
+class Nobody {
+  @Easy('config')
+  config: Object;
+  constructor () {
+    super()
+  }
+  
+  public getName() {
+    return this.somebody.getName();
+  }
+ 
+  public setName(v: string) {
+    this.somebody.setName(v);
+  }
+}
+```
+
+A bit complicated example:
+
+```javascript
+import {Easy, EasyPrototype, EasySingleton, EasyFactory, Easily, is} from './core'
+
+Easily('config', {
+  feeling: 'bored'
+})
+
+@EasyFactory()
+abstract class Person {
+  abstract getName();
+  abstract setName(v: string);
+}
+ 
+// @EasyObservable()
+@EasySingleton()
+class Somebody extends Person{
+  // @Easy()
+  constructor (private name: string) {
+    super()
+    this.name = 'Sal';
+  }
+ 
+  public getName() {
+    return this.name;
+  }
+  public setName(v: string) {
+    this.name = v;
+  }
+}
+ 
+@EasyPrototype()
+class Nobody extends Person{
+  @Easy()
+  somebody: Person;
+  @Easy('config')
+  config: Object;
+  constructor () {
+    super()
+  }
+  
+  public getName() {
+    return this.somebody.getName();
+  }
+ 
+  public setName(v: string) {
+    this.somebody.setName(v);
+  }
+}
+
+@EasyFactory()
+abstract class Show {
+  public abstract getName(): string;
+  public abstract getRatings(): number;
+  public abstract setName(v: string);
+  public abstract setRatings(v: number);
+}
+ 
+// Creates a singleton instance of Movie class in runtime
+@EasySingleton()
+class Movie extends Show {
+  constructor (private name: string, private ratings: number) {
+    super();
+    // Lets say that they just release the movie :D
+    this.name = 'Black Panther';
+    this.ratings = 9.0; // I really like that movie
+  }
+ 
+  public getName(): string {
+    return this.name;
+  }
+ 
+  public getRatings(): number {
+    return this.ratings;
+  }
+ 
+  public setName(v: string) {
+    this.name = v;
+  }
+ 
+  public setRatings(v: number) {
+    this.ratings = v;
+  }
+}
+ 
+@EasySingleton()
+class Data {
+  @Easy()
+  somebody: Person;
+  name: string;
+  @Easy()
+  movie: Movie;
+  change(v: string) {
+    this.somebody.setName(v);
+  }
+ 
+  getName(): string {
+    return this.somebody.getName();
+  }
+}
+ 
+let n = new Nobody();
+console.log(n)
+console.log(n.getName()) // Prints Sal
+n.setName('awesome');
+console.log(n.getName())  // Prints awesome
+let d = new Data()
+console.log(d)
+console.log(d.getName())  // Prints awesome
+d.change('Gelba')
+console.log(n.getName())  // Prints Gelba
+d.change('kaa')
+console.log(n.getName())
 ```
