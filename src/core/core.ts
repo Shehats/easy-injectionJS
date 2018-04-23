@@ -85,26 +85,6 @@ export enum Stereotype {
   Prototype,
   Observable,
   Factory,
-  Inject,
-  Service 
+  Easily 
 }
 
-export class Wrapper {
-  private static _instance: Wrapper;
-  private _soFar: any;
-  private constructor () {
-    this._soFar = new class {}();
-  }
-
-  public static get Instance(): Wrapper {
-    return this._instance || (this. _instance = new Wrapper());
-  }
-
-  public get (target: string): Object {
-    return this._soFar[target];
-  }
-
-  public insert (key: string, target: Object): void {
-    this._soFar[key] = target;
-  }
-}

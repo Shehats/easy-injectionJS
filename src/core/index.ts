@@ -3,14 +3,16 @@ export { isPrimitive,
          stereotypes,
          IContainer,
          Stereotype,
-         Dependency,
-         Wrapper } from './core';
+         Dependency
+      } from './core';
 
 export { EasySingleton,
          EasyPrototype,
          Easy,
          EasyFactory,
-         is } from './stereotypes';
+         is,
+         Easily } from './stereotypes';
 
-export { getDependencies,
-		   resolveDependencyTree } from './util';
+export { resolveDependencyTree } from './util';
+
+export { Wrapper } from './wrapper';

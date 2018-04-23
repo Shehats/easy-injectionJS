@@ -1,25 +1,7 @@
 import "reflect-metadata";
 
 import { Container, ClassContainer } from '../containers';
-import { Wrapper, Dependency, stereotypes, isPrimitive } from '../core';
-
-const wrapper: Wrapper = Wrapper.Instance;
-
-export const getDependencies = <T extends {new(...args:any[]):{}}>(target: T | Function, 
-  name?: string): Dependency[] => {
-  let _ref = wrapper.get(name || target.name);
-  if (!_ref) {
-    // try by target name
-    _ref = wrapper.get(target.name);
-    if (!_ref) {
-      wrapper.insert(name || target.name, target);
-    _ref = wrapper.get(name || target.name);
-    }
-  }
-  
-  let _existing: Dependency[] = Reflect.getMetadata(stereotypes.easy, _ref);
-  return _existing;
-}
+import { Dependency, stereotypes, isPrimitive } from '../core';
 
 export const resolveDependencyTree = <T extends {new(...args:any[]):{}}>(target: T, 
   container: Container, dependencies: Dependency[]): void => {
@@ -41,6 +23,6 @@ export const resolveDependencyTree = <T extends {new(...args:any[]):{}}>(target:
       });
     }
   })
-    container.dependencies = dependencies;
+    container.dependencies = dependencies || [];
   }
 }

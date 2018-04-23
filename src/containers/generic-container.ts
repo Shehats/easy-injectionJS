@@ -22,7 +22,7 @@ export class GenericContainer extends Container {
   public resolveDepedendencies (): Object {
     function _resolveInstances (name: string): Object {
       let data = ClassContainer.getDependency(name)
-      return (data.stereotype == Stereotype.Singleton)
+      return (data.stereotype == Stereotype.Singleton || data.stereotype == Stereotype.Easily)
       ? data.instance
       : data.resolveDepedendencies();
     }

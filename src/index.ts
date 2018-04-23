@@ -2,4 +2,5 @@ export { EasySingleton,
          EasyPrototype,
          Easy,
          EasyFactory,
-         is } from './core';
+         is,
+         Easily } from './core';
