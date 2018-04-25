@@ -357,10 +357,10 @@ class Nobody {
 A bit complicated example:
 
 ```javascript
-import {Easy, EasyPrototype, EasySingleton, EasyFactory, Easily, is} from './core'
+import {Easy, EasyPrototype, EasySingleton, EasyFactory, Easily, is} from 'easy-injectionjs';
 
 Easily('config', {
-  feeling: 'bored'
+  feeling: 'hungry'
 })
 
 @EasyFactory()
@@ -368,8 +368,7 @@ abstract class Person {
   abstract getName();
   abstract setName(v: string);
 }
- 
-// @EasyObservable()
+
 @EasySingleton()
 class Somebody extends Person{
   // @Easy()
@@ -469,3 +468,37 @@ console.log(n.getName())  // Prints Gelba
 d.change('kaa')
 console.log(n.getName())
 ```
+Even method injection is very easy using both "Easily", the decorators and "is". That makes dynamic injection very easy.
+
+```javascript
+import { Easily } from 'easy-injectionjs';
+
+Easily('Data', {
+  name: 'Sal'
+});
+
+```
+And somewhere in the program in another file:
+
+```javascript
+import { is, Easily } from 'easy-injectionjs';
+
+function modifyData(data: any = is('Data')) {
+  data.name = 'I am Batman';
+  // update it
+  Easily('Data',data);
+}
+```
+
+And maybe another class requires "Data":
+
+```javascript
+import { EasyPrototype, Easy } from 'easy-injectionjs';
+// why not :D
+@EasyPrototype()
+class Mule {
+  @Easy('Data')
+  private data:any;
+}
+```
+If modifyData was called before Mule was used, the data name inside the property data of mule will change in runtime.
