@@ -58,9 +58,13 @@ export const Easy = (name?: string) => function(target: Object,
   Wrapper.insertDepedencies(target.constructor.name, _existing);
 }
 
-export const is = <T>(target: (new(...args:any[]) => T) | string): T => <T>ClassContainer.getDependency((isPrimitive(target))? target: target['name']).resolveDepedendencies();
+export const is = <T>(target: (new(...args:any[]) => T) | string): T => {
+  let _container: Container = ClassContainer.getDependency((isPrimitive(target))? target: target['name'])
+  if (_container)
+    return <T>_container.resolveDepedendencies();
+}
 
-export const Easily = (name: string, target: Object) => {
+export const Easily = (name: string, target: any) => {
   let _static = new StaticContainer(Stereotype.Easily, [], name, target);
   _static.resolveDepedendencies();
 }
